@@ -44,6 +44,7 @@ section {
 }
 .weather-details {
   position: relative;
+  bottom: 38px;
 }
 .weather-details strong {
   color: #ea6b6b;
@@ -74,4 +75,20 @@ a {
 }
 .temperature-display {
   display: flex;
+}
+.weather-forecast {
+  margin-left: 24px;
+}
+.weather-forecast {
+  margin-top: 12px;
+  margin-right: 100px;
+  margin-left: 100px;
+  display: flex;
+  justify-content: space-between;
+}
+.min-temperature {
+  opacity: 0.6;
+}
+.max-temperature {
+  font-weight: bolder;
 }
