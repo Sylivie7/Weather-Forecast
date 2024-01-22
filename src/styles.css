@@ -92,3 +92,16 @@ a {
 .max-temperature {
   font-weight: bolder;
 }
+.forecast-day {
+  font-size: 15px;
+  text-align: center;
+}
+.forecast-icon {
+  margin-top: 3px;
+  width: 88px;
+  height: 88px;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  right: 25px;
+}

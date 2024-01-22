@@ -17,6 +17,8 @@ function updateWeatherInfo(response) {
   windspeed.innerHTML = `${response.data.wind.speed}km/h`;
   icon.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-icon" />`;
   time.innerHTML = formatDate(date);
+
+  getForecast(response.data.city);
 }
 function formatDate(date) {
   let minutes = date.getMinutes();
@@ -52,25 +54,42 @@ function handleSubmit(event) {
 let searchCity = document.querySelector("#search-form");
 searchCity.addEventListener("submit", handleSubmit);
 
-function displayForecast() {
-  let days = ["Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[date.getDay()];
+}
+
+function getForecast(city) {
+  let apiKey = "b3bdf7od0eca6e34d1d9b7194t060444";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
+function displayForecast(response) {
   let forecastHTML = "";
-  days.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `
+  response.data.daily.forEach(function (day, index) {
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `
       <div class="forecast-day-data">
-        <div class="forecast_day">${day}</div>
-        <div class="forecast-icon">🌦</div>
+        <div class="forecast_day">${formatDay(day.time)}</div>
+         <img src="${day.condition.icon_url}" class="forecast-icon" />
         <div class="forecast-temperature">
-          <span class="max-temperature">16°</span>
-          <span class="min-temperature">10°</span>
+          <span class="max-temperature">
+          ${Math.round(day.temperature.maximum)}º
+          </span>
+          <span class="min-temperature">
+          ${Math.round(day.temperature.minimum)}º
+          </span>
         </div>
       </div>
     `;
+    }
   });
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = forecastHTML;
 }
 searchWeather("Paris");
-displayForecast();
